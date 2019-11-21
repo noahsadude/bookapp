@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ejs": "^2.7.3",
+    "ejs": "^2.7.4",
     "express": "^4.17.1",
     "pg": "^7.14.0",
     "superagent": "^5.1.0"
