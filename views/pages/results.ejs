@@ -9,7 +9,12 @@
 <body>
   <main>
     <% searchResults.forEach(book=> {%>
-     <li><%= book.title%> <li>
+    <section>
+      <img src="<%= book.img %>"/>
+     <h2><%= book.title %> <h2>
+     <h3><%= book.authors %></h3>
+     <p><%= book.description %></p>
+    </section>
     <%);}%>
   </main>
 </body>

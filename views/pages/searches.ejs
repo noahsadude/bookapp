@@ -8,9 +8,14 @@
 </head>
 <body>
     <main>
-        <% searchResults.forEach( book => { %>
-            <h3><%= book.title %></h3>
-        <% }) %>
+        <% searchResults.forEach(book=> {%>
+            <section>
+                <img src="<%= book.img %>"/>
+                <h2><%= book.title %> <h2>
+                <h3><%= book.authors %></h3>
+                <p><%= book.description %></p>
+            </section>
+        <%});%>
     </main>
 </body>
 </html>
