@@ -23,17 +23,17 @@ app.get('*', (req, res) => res.status(404).send('This route does not exist'));
 
 //Helper Functions
 function newSearch(req, res){ //renders the index.ejs file in pages dir 
-    res.render('pages/index')
+  res.render('pages/index')
 }
 
 function createSearch(req, res){
-    let url = 'https://www.googleapis.com/books/v1/volumes?q=';  //this is not the full URL
-    //these if statements determine the rest of the URL
-    console.log(req.body);
-    if(req.body.search[1] === 'title' ) {url += `intitle:${req.body.search[0]}`;}
-    if(req.body.search[1] === 'author' ) {url += `inauthor:${req.body.search[0]}`;}
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';  //this is not the full URL
+  //these if statements determine the rest of the URL
+  console.log(req.body);
+  if(req.body.search[1] === 'title' ) {url += `intitle:${req.body.search[0]}`;}
+  if(req.body.search[1] === 'author' ) {url += `inauthor:${req.body.search[0]}`;}
 
-    superagent.get(url)
+  superagent.get(url)
     //map over the info from superagent, inside the items array, and create a new Book object
     //from each result
     .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
@@ -44,8 +44,10 @@ function createSearch(req, res){
 
 //Book constructor
 function Book(info){
-    console.log('volume info: ',info.title)
-    this.title = info.title || 'No title available';
+  this.img = info.imageLinks.thumbnail;
+  this.title = info.title || 'No title available';
+  this.authors = info.authors;
+  this.description = info.description;
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
