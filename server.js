@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const express = require('express');
 const app = express();
@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');  
 
 //tells express to find static files (like css) in the public dir
-app.use(express.static('public')); 
+app.use(express.static('public'));
 
 //tells express to read all incoming body info (from the Books api)
 app.use(express.urlencoded({extended:true}));
@@ -23,10 +23,11 @@ app.get('*', (req, res) => res.status(404).send('This route does not exist'));
 
 //Helper Functions
 function newSearch(req, res){ //renders the index.ejs file in pages dir 
-    res.render('pages/index')
+  res.render('pages/index');
 }
 
 function createSearch(req, res){
+  try {
     let url = 'https://www.googleapis.com/books/v1/volumes?q=';  //this is not the full URL
     //these if statements determine the rest of the URL
     console.log(req.body);
@@ -34,20 +35,27 @@ function createSearch(req, res){
     if(req.body.search[1] === 'author' ) {url += `inauthor:${req.body.search[0]}`;}
 
     superagent.get(url)
-    //map over the info from superagent, inside the items array, and create a new Book object
-    //from each result
-    .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
-    //take that array of Book objects and pass it to the searches page when rendered
-    .then(results => res.render('pages/searches', {searchResults:results}));
-
+      //map over the info from superagent, inside the items array, and create a new Book object
+      //from each result
+      .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
+      //take that array of Book objects and pass it to the searches page when rendered
+      .then(results => res.render('pages/searches', {searchResults:results}));
+  }
+  catch (error){
+    errorHandler('Something has gone amiss.', request, response);
+  }
 }
 
 //Book constructor
 function Book(info){
-    console.log('volume info: ',info.title)
-    this.title = info.title || 'No title available';
+  console.log('volume title: ', info.title);
+  console.log('volume author: ', info.authors);
+  this.title = info.title || 'No title available';
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
+function errorHandler(error, request, response) {
+  response.status(500).send(error);
+}
 
 app.listen(PORT, () => console.log(`server up on ${PORT}`));
