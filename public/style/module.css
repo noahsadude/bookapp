@@ -46,12 +46,46 @@ form {
   align-content: center;
 }
 
+fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+.white-box {
+  width: 80%;
+  box-sizing: border-box;
+  background-color: #E5E5E3;
+  margin: 2.8% auto;
+  font-size: 1em;
+  text-align: left;
+  padding: 1em;
+}
+
+.search-textbox {
+  margin: 4% auto 1% auto;
+}
+
+input {
+  padding: 1em;
+}
+
 h4, button {
   display: block;
   width: 100%;
-  padding: 1.6em 0;
-  /* height: 30%; */
+  padding: 1em 0;
   background-color: grey;
+  color: #E5E5E3;
+}
+
+label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+span {
+  width: 70px;
+  text-align: left;
 }
 
 button {
