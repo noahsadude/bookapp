@@ -27,23 +27,23 @@ function newSearch(req, res){ //renders the index.ejs file in pages dir
 }
 
 function createSearch(req, res){
-  try {
-    let url = 'https://www.googleapis.com/books/v1/volumes?q=';  //this is not the full URL
-    //these if statements determine the rest of the URL
-    console.log(req.body);
-    if(req.body.search[1] === 'title' ) {url += `intitle:${req.body.search[0]}`;}
-    if(req.body.search[1] === 'author' ) {url += `inauthor:${req.body.search[0]}`;}
 
-    superagent.get(url)
-      //map over the info from superagent, inside the items array, and create a new Book object
-      //from each result
-      .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
-      //take that array of Book objects and pass it to the searches page when rendered
-      .then(results => res.render('pages/searches', {searchResults:results}));
-  }
-  catch (error){
-    errorHandler('Something has gone amiss.', request, response);
-  }
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';  //this is not the full URL
+  //these if statements determine the rest of the URL
+  console.log();
+  console.log(req.body);
+  if(req.body.search[1] === 'title' ) {url += `intitle:${req.body.search[0]}`;}
+  if(req.body.search[1] === 'author' ) {url += `inauthor:${req.body.search[0]}`;}
+
+  superagent.get(url)
+    //map over the info from superagent, inside the items array, and create a new Book object
+    //from each result
+    .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
+    //take that array of Book objects and pass it to the searches page when rendered
+    .then(results => res.render('pages/searches', {searchResults:results}))
+    .catch( () => {
+      errorHandler('Something has gone amiss.', req, res);
+    });
 }
 
 //Book constructor
@@ -54,8 +54,9 @@ function Book(info){
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
-function errorHandler(error, request, response) {
-  response.status(500).send(error);
+function errorHandler(error, req, res) {
+  // response.status(500).send(error)
+  res.render('pages/error');
 }
 
 app.listen(PORT, () => console.log(`server up on ${PORT}`));
