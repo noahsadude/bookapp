@@ -13,7 +13,8 @@
       <section class="book-info">
         <img src="<%= book.imageURL %>" alt="<%= book.title %> Book Photo" title="<%= book.title %>" />
         <h3>Book Title: <%= book.title %></h3>
-        <h2>Book Author(s): <%= book.authors %></h2>
+        <h2>Author(s): <%= book.authors %></h2>
+        <p><%= book.description %></p>
       </section>
 
     <% }) %>

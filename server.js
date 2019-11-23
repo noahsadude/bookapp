@@ -55,6 +55,7 @@ function Book(info){
   this.title = info.title || 'No title available';
   this.authors = info.authors;
   this.imageURL = info.imageLinks.thumbnail;
+  this.description = info.description;
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
