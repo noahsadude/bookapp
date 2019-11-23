@@ -47,7 +47,7 @@ function createSearch(req, res){
 
 //Book constructor
 function Book(info){
-  this.imgUrl = info.imageLinks.thumbnail;
+  this.image = info.imageLinks.thumbnail;
   this.title = info.title || 'No title available';
   this.authors = info.authors;
   this.description = info.description;
