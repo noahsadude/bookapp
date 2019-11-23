@@ -1,0 +1,27 @@
+header {
+	height: 70px;
+	background-color: #3e739d;
+	border-bottom: 1px solid #E5E5E3;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+	box-sizing: border-box;
+}
+footer {
+	height: 50px;
+	background-color: #3e739d;
+	color: #fff;
+  display: flex;
+	align-items: center;
+	justify-content: center;
+	bottom: 0;
+	position: fixed;
+	width: 100%;
+}
+
