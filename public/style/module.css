@@ -1,7 +1,7 @@
 header > h1 {
 	width: calc(100% - 160px);
 	text-align: center;
-	font-size: 50px;
+	font-size: 2em;
 	color: white;
 }
 header > .top {

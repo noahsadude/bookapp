@@ -39,6 +39,7 @@ function createSearch(req, res){
     //map over the info from superagent, inside the items array, and create a new Book object
     //from each result
     .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
+
     //take that array of Book objects and pass it to the searches page when rendered
     .then(results => res.render('pages/searches', {searchResults:results}))
     .catch( () => {
@@ -50,7 +51,10 @@ function createSearch(req, res){
 function Book(info){
   console.log('volume title: ', info.title);
   console.log('volume author: ', info.authors);
+  console.log('volume image url: ', info.imageLinks.thumbnail);
   this.title = info.title || 'No title available';
+  this.authors = info.authors;
+  this.imageURL = info.imageLinks.thumbnail;
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
