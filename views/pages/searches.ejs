@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+  <title>Document</title>
+  <% include partials/head %>
 </head>
 <body>
-    <main>
-        <% searchResults.forEach(book=> {%>
-            <section>
-                <img src="<%= book.img %>"/>
-                <h2><%= book.title %> <h2>
-                <h3><%= book.authors %></h3>
-                <p><%= book.description %></p>
-            </section>
-        <%});%>
-    </main>
+  <header>
+    <% include partials/header %>
+  </header>
+  <main>
+    <h4>Search Results</h4>
+    <% searchResults.forEach( book => { %>
+      <section class="book-info">
+        <img src="<%= book.imgURL %>" alt="<%= book.title %> Book Photo" title="<%= book.title %>" />
+        <h3 class="title"><%= book.title %></h3>
+        <h2 class="author"><%= book.authors %></h2>
+        <p class="description"><%= book.description %></p>
+      </section>
+
+    <% }) %>
+  </main>
+  <footer>
+      <% include partials/footer %>
+  </footer>
 </body>
 </html>
