@@ -29,6 +29,7 @@ function newSearch(req, res){ //renders the index.ejs file in pages dir
 function createSearch(req, res){
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';  //this is not the full URL
   //these if statements determine the rest of the URL
+  console.log();
   console.log(req.body);
   if(req.body.search[1] === 'title' ) {url += `intitle:${req.body.search[0]}`;}
   if(req.body.search[1] === 'author' ) {url += `inauthor:${req.body.search[0]}`;}
@@ -38,18 +39,28 @@ function createSearch(req, res){
     //from each result
     .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
     //take that array of Book objects and pass it to the searches page when rendered
-    .then(results => res.render('pages/searches', {searchResults:results}));
-
+    .then(results => res.render('pages/searches', {searchResults:results}))
+    .catch( () => {
+      errorHandler('Something has gone amiss.', req, res);
+    });
 }
 
 //Book constructor
 function Book(info){
-  this.img = info.imageLinks.thumbnail;
+  this.imgUrl = info.imageLinks.thumbnail;
   this.title = info.title || 'No title available';
   this.authors = info.authors;
   this.description = info.description;
+
+  console.log('volume title: ', info.title);
+  console.log('volume author: ', info.authors);
+  console.log('volume image url: ', info.imageLinks.thumbnail);
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
+function errorHandler(error, req, res) {
+  // response.status(500).send(error)
+  res.render('pages/error');
+}
 
 app.listen(PORT, () => console.log(`server up on ${PORT}`));
