@@ -108,6 +108,19 @@ ul {
   display: inline-block;
 }
 
+
+/* searches */
+.book-info {
+  width: 80%;
+  margin: 3% auto 1.5% auto;
+  box-sizing: border-box;
+  background-color: #FFFFDA;
+  padding: 4% 9%;
+  box-shadow: 3px 5px #FFD02E;
+  border-radius: 10px;
+  
+}
+
 @media screen and (min-width: 800px) {
 	header h1 {
 		font-size: 40px;
