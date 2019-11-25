@@ -1,32 +1,27 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Book Collection</title>
-    <%- include partials/head %>
-  </head>
-  <body>
-    <header>
-        <%- include partials/header %>
-    </header>
-    <main>
-      <h4>Search by Title or Author</h4>
-      <form action="/searches" method="post">
-        <input class="white-box search-textbox" type="text" name="search" placeholder="Enter a title or author" required>
-        <fieldset>
-          <label class="white-box" for="title">
-            <span>Title</span>
-            <input type="radio" name="search" value="title" required>
-          </label>
-          <label class="white-box" for="author">
-            <span>Author</span>
-            <input type="radio" name="search" value="author" required>
-          </label>
-        </fieldset>
-          <button type="submit">Search the Google Books API</button>
-      </form>
-    </main>
-    <footer>
-        <%- include("partials/footer") %>
-    </footer>
-  </body>
+<html lang="en">
+<head>
+  <title>Document</title>
+  <% include partials/head %>
+</head>
+<body>
+  <header>
+    <% include partials/header %>
+  </header>
+  <main>
+    <h4>Books in list: <%= searchResults.length %></h4>
+    <% searchResults.forEach( book => { %>
+      <section class="book-info">
+        <img src="<%= book.image %>" alt="<%= book.title %> Book Photo" title="<%= book.title %>" />
+        <h3 class="title"><%= book.title %></h3>
+        <h2 class="author"><%= book.authors %></h2>
+        <p class="description"><%= book.description %></p>
+      </section>
+
+    <% }) %>
+  </main>
+  <footer>
+      <% include partials/footer %>
+  </footer>
+</body>
 </html>
