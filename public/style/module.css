@@ -54,7 +54,7 @@ h4, button {
   width: 100%;
   padding: 1em 0;
   background-color: #E5E5E3;
-  color: #E5E5E3;
+  /* color: #E5E5E3; */
 }
 
 label {
