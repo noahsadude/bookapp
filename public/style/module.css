@@ -102,6 +102,7 @@ ul {
 
 img {
   margin-bottom: 4%;
+  width: 40%;
 }
 
 .title {
@@ -129,11 +130,11 @@ img {
 @media screen and (min-width: 800px) {
 	header h1 {
 		font-size: 40px;
-	}
+  }
 }
 @media screen and (min-width: 500px) {
-	nav.menu {
-		width: 100%;
+  nav.menu {
+    width: 100%;
 		left: -100%; 
 	}
 }

@@ -77,9 +77,8 @@ function Book(info){
   this.title = info.title || 'No title available';
   this.authors = info.authors;
   this.description = info.description;
-  this.isbns = info.industryIdentifiers;
-  this.bookshelf = info.mainCategory;
-  this.subCategories = info.categories;
+  this.isbn = info.industryIdentifiers[1].identifier; // isbn 13
+  this.shelf = info.mainCategory;
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
