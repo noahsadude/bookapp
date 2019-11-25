@@ -27,6 +27,7 @@ client.on('error', err => console.error(err));
 
 //Routes
 app.get('/', buildIndex);
+app.get('/show', getOneBook);
 app.get('/search', newSearch);
 app.post('/searchresults', searchAPI);
 app.get('/book/:book_id', getOneBook);
