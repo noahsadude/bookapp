@@ -12,13 +12,13 @@
     <h4>Books in list: <%= searchResults.rows.length %></h4>
     <% searchResults.rows.forEach( book => { %>
       <section class="book-info">
-        <img src="<%= book.image %>" alt="<%= book.title %> Book Photo" title="<%= book.title %>" />
+        <!-- <img src="<%= book.image %>" alt="<%= book.title %> Book Photo" title="<%= book.title %>" />
         <h3 class="title"><%= book.title %></h3>
         <h2 class="author"><%= book.authors.join(', ') %></h2>
-        <p class="description"><%= book.description %></p>
+        <p class="description"><%= book.description %></p> -->
+        <%- include('partials/detail', {book: book}) %>
         <button><a href='/book/<%= book.id %>'>View details</a></button>
       </section>
-
     <% }) %>
   </main>
   <footer>
