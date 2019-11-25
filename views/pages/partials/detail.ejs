@@ -5,11 +5,8 @@ The `detail.ejs` file is a partial file that contains just a `<section>` to rend
   <% searchResults.forEach(book=> {%>
     <section>
       <h2><%= book.title %> <h2>
-      <h3><%= book.authors %></h3>
-      <!-- ISBN 10 -->
-      <h3><%= book.isbns[0].identifier %></h3>
-      <!-- ISBN 13 -->
-      <h3><%= book.isbns[1].identifier %></h3>
+      <h2 class="author"><%= book.authors.join(', ') %></h2>
+      <h3><%= book.isbn %></h3>
       <h3><%= book.image %></h3>
       <p><%= book.description %></p>
       <p><%= book.bookshelf %></p>
