@@ -9,6 +9,7 @@
     <%- include('partials/header') %>
   </header>
   <main>
+    <a href="/search">Search</a>
     <h4>Books in list: <%= searchResults.rows.length %></h4>
     <% searchResults.rows.forEach( book => { %>
       <section class="book-info">
