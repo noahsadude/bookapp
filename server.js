@@ -29,14 +29,21 @@ client.on('error', err => console.error(err));
 app.get('/', buildIndex);
 app.get('/search', newSearch);
 app.post('/searchresults', searchAPI);
-
+app.get('/book/:book_id', getOneBook);
 
 //Helper Functions
+
+async function getOneBook(req,res){
+  let sql = 'SELECT * FROM books WHERE id=$1;'
+  let result = await client.query(sql,[req.params.book_id]);
+  res.render('pages/book', {searchResults:result.rows});
+}
 
 async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
-  res.render('pages/index', {searchResults:result.rows});
+  console.log(result.rows[0]);
+  res.render('pages/index', {searchResults:result});
 }
 
 function newSearch(req, res){ //renders the search.ejs file in pages dir 
