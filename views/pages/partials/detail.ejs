@@ -1,0 +1,20 @@
+<!-- This view should show the title, author, description, ISBN, bookshelf and image of the book.  
+The `detail.ejs` file is a partial file that contains just a `<section>` to render the details of a single book. The show.ejs file uses EJS syntax to include this partial.
+-->
+<section>
+  <% searchResults.forEach(book=> {%>
+    <section>
+      <h2><%= book.title %> <h2>
+      <h3><%= book.authors %></h3>
+      <!-- ISBN 10 -->
+      <h3><%= book.isbns[0].identifier %></h3>
+      <!-- ISBN 13 -->
+      <h3><%= book.isbns[1].identifier %></h3>
+      <h3><%= book.image %></h3>
+      <p><%= book.description %></p>
+      <p><%= book.bookshelf %></p>
+      <p><%= book.subCategories %></p>
+
+    </section>
+  <%);}%>
+</section>

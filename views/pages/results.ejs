@@ -11,14 +11,14 @@
   <main>
     <% searchResults.forEach(book=> {%>
     <section>
-      <img src="<%= book.imgURL %>"/>
-     <h2><%= book.title %> <h2>
-     <h3><%= book.authors %></h3>
-     <p><%= book.description %></p>
+      <img src="<%= book.image %>"/>
+      <h2><%= book.title %> <h2>
+      <h3><%= book.authors %></h3>
+      <p><%= book.description %></p>
     </section>
     <%);}%>
   </main>
   <footer>
-      <% include partials/footer %>
+    <% include partials/footer %>
   </footer></body>
 </html>
