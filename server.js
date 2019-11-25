@@ -42,7 +42,8 @@ async function getOneBook(req,res){
 async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
-  console.log(result.rows[0]);
+  console.log('result.rows[0]: ', result.rows[0]);
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   res.render('pages/index', {searchResults:result});
 }
 
@@ -59,6 +60,7 @@ async function searchAPI(req, res){
     //wait for the result of the API call
     let result = await superagent.get(url);
     console.log('result.body.items: ', result.body.items);
+    console.log('result.body.items[3].volumeInfo.categories: ', result.body.items[0].volumeInfo.categories);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     //instantiate book objects, and assign those objects to a new array
     let bookArray = result.body.items.map(bookResult => new Book(bookResult.volumeInfo));
@@ -70,7 +72,7 @@ async function searchAPI(req, res){
   }
   catch{
     //if something goes wrong, say something.
-    errorHandler('Something has gone amiss.', req, res);
+    errorHandler('Something has gone awry.', req, res);
   }
 }
 
@@ -81,7 +83,7 @@ function Book(info){
   this.authors = info.authors;
   this.description = info.description;
   this.isbn = info.industryIdentifiers[1].identifier; // isbn 13
-  this.shelf = info.mainCategory;
+  this.shelf = info.categories;
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
