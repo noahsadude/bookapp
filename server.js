@@ -56,14 +56,14 @@ async function searchAPI(req, res){
   if(req.body.search[1] === 'title' ) {url += `intitle:${req.body.search[0]}`;}
   if(req.body.search[1] === 'author' ) {url += `inauthor:${req.body.search[0]}`;}
   try{
-  //wait for the result of the API call
-  let result = await superagent.get(url);
-  //instantiate book objects, and assign those objects to a new array
-  let bookArray = result.body.items.map(bookResult => new Book(bookResult.volumeInfo));
-  //console log the first book to make sure schema is ok
-  console.log(bookArray[0]);
-  //pass the array of book objects back to the response
-  res.render('pages/searchresults', {searchResults:bookArray});
+    //wait for the result of the API call
+    let result = await superagent.get(url);
+    //instantiate book objects, and assign those objects to a new array
+    let bookArray = result.body.items.map(bookResult => new Book(bookResult.volumeInfo));
+    //console log the first book to make sure schema is ok
+    console.log(bookArray[0]);
+    //pass the array of book objects back to the response
+    res.render('pages/searchresults', {searchResults:bookArray});
   }
   catch{
     //if something goes wrong, say something.
