@@ -13,7 +13,7 @@
     <% searchResults.forEach( book => { %>
       <section class="book-info">
         <%- include('partials/detail', {book: book}) %>
-        <button>Select this book</button>
+        <button><a href="/add">Select this book</a></button>
       </section>
 
     <% }) %>

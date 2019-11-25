@@ -58,10 +58,13 @@ async function searchAPI(req, res){
   try{
     //wait for the result of the API call
     let result = await superagent.get(url);
+    console.log('result.body.items: ', result.body.items);
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     //instantiate book objects, and assign those objects to a new array
     let bookArray = result.body.items.map(bookResult => new Book(bookResult.volumeInfo));
     //console log the first book to make sure schema is ok
-    console.log(bookArray[0]);
+    console.log('bookArray[0]): ', bookArray[0]);
+
     //pass the array of book objects back to the response
     res.render('pages/searchresults', {searchResults:bookArray});
   }
@@ -84,9 +87,10 @@ function Book(info){
 //DON'T FORGET TO HANDLE ERRORS!!!!
 
 app.get('*', (req, res) => res.status(404).send('This route does not exist'));
+
 function errorHandler(error, req, res) {
-  // response.status(500).send(error)
-  res.render('pages/error');
+  res.status(500).send(error);
+  // res.render('pages/error');
 }
 
 app.listen(PORT, () => console.log(`server up on ${PORT}`));
