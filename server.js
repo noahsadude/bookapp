@@ -42,7 +42,8 @@ async function getOneBook(req,res){
 async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
-  console.log(result.rows[0]);
+  console.log('result.rows[0]: ', result.rows[0]);
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   res.render('pages/index', {searchResults:result});
 }
 
@@ -56,18 +57,22 @@ async function searchAPI(req, res){
   if(req.body.search[1] === 'title' ) {url += `intitle:${req.body.search[0]}`;}
   if(req.body.search[1] === 'author' ) {url += `inauthor:${req.body.search[0]}`;}
   try{
-  //wait for the result of the API call
-  let result = await superagent.get(url);
-  //instantiate book objects, and assign those objects to a new array
-  let bookArray = result.body.items.map(bookResult => new Book(bookResult.volumeInfo));
-  //console log the first book to make sure schema is ok
-  console.log(bookArray[0]);
-  //pass the array of book objects back to the response
-  res.render('pages/searchresults', {searchResults:bookArray});
+    //wait for the result of the API call
+    let result = await superagent.get(url);
+    console.log('result.body.items: ', result.body.items);
+    console.log('result.body.items[3].volumeInfo.categories: ', result.body.items[0].volumeInfo.categories);
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    //instantiate book objects, and assign those objects to a new array
+    let bookArray = result.body.items.map(bookResult => new Book(bookResult.volumeInfo));
+    //console log the first book to make sure schema is ok
+    console.log('bookArray[0]): ', bookArray[0]);
+
+    //pass the array of book objects back to the response
+    res.render('pages/searchresults', {searchResults:bookArray});
   }
   catch{
     //if something goes wrong, say something.
-    errorHandler('Something has gone amiss.', req, res);
+    errorHandler('Something has gone awry.', req, res);
   }
 }
 
@@ -77,14 +82,17 @@ function Book(info){
   this.title = info.title || 'No title available';
   this.authors = info.authors;
   this.description = info.description;
+  this.isbn = info.industryIdentifiers[1].identifier; // isbn 13
+  this.shelf = info.categories;
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
 
 app.get('*', (req, res) => res.status(404).send('This route does not exist'));
+
 function errorHandler(error, req, res) {
-  // response.status(500).send(error)
-  res.render('pages/error');
+  res.status(500).send(error);
+  // res.render('pages/error');
 }
 
 app.listen(PORT, () => console.log(`server up on ${PORT}`));

@@ -1,5 +1,5 @@
 header {
-	height: 70px;
+	height: 10em;
 	background-color: #3e739d;
 	border-bottom: 1px solid #E5E5E3;
 	display: flex;
@@ -13,6 +13,7 @@ main {
   flex-direction: column;
 	box-sizing: border-box;
 }
+
 footer {
 	height: 50px;
 	background-color: #3e739d;
