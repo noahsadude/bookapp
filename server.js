@@ -36,15 +36,15 @@ app.get('/book/:book_id', getOneBook);
 async function getOneBook(req,res){
   let sql = 'SELECT * FROM books WHERE id=$1;'
   let result = await client.query(sql,[req.params.book_id]);
-  res.render('pages/book', {searchResults:result.rows});
+  res.render('pages/book', {searchResults:result.rows, route: '/book'});
 }
 
 async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
   console.log('result.rows[0]: ', result.rows[0]);
-  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-  res.render('pages/index', {searchResults:result});
+
+  res.render('pages/index', {searchResults:result, route: '/'});
 }
 
 function newSearch(req, res){ //renders the search.ejs file in pages dir 
@@ -61,18 +61,20 @@ async function searchAPI(req, res){
     let result = await superagent.get(url);
     console.log('result.body.items: ', result.body.items);
     console.log('result.body.items[3].volumeInfo.categories: ', result.body.items[0].volumeInfo.categories);
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
     //instantiate book objects, and assign those objects to a new array
     let bookArray = result.body.items.map(bookResult => new Book(bookResult.volumeInfo));
     //console log the first book to make sure schema is ok
     console.log('bookArray[0]): ', bookArray[0]);
 
     //pass the array of book objects back to the response
-    res.render('pages/searchresults', {searchResults:bookArray});
+    res.render('pages/searchresults', {searchResults:bookArray, route: '/searchresults'});
   }
   catch{
     //if something goes wrong, say something.
-    errorHandler('Something has gone awry.', req, res);
+    // if(result.body.items.length === 0 ){
+      errorHandler(`No books with the ${req.body.search[1]} ${req.body.search[0]} was found.`, req, res);
+    // }
   }
 }
 
@@ -82,7 +84,12 @@ function Book(info){
   this.title = info.title || 'No title available';
   this.authors = info.authors;
   this.description = info.description;
-  this.isbn = info.industryIdentifiers[1].identifier; // isbn 13
+  if(info.industryIdentifiers.length > 1){
+    this.isbn = info.industryIdentifiers[1].identifier;
+  }
+  if(info.industryIdentifiers.length === 1){
+    this.isbn = info.industryIdentifiers[0].identifier;
+  }
   this.shelf = info.categories;
 }
 
