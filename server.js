@@ -40,7 +40,7 @@ app.get('/search', newSearch);
 app.post('/searchresults', searchAPI);
 app.get('/book/:book_id', getOneBook);
 
-app.delete('/book/:id, deleteBook');
+app.delete('/book/:id', deleteBook);
 
 //Helper Functions
 
@@ -53,7 +53,7 @@ async function getOneBook(req,res){
 async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
-  console.log('result.rows[0]: ', result.rows[0]);
+  console.log('result.rows from buildIndex: ', result.rows);
 
   res.render('pages/index', {searchResults:result, route: '/'});
 }
@@ -91,8 +91,13 @@ async function searchAPI(req, res){
 }
 
 function deleteBook(req, res) {
-  let sql = 'DELETE FROM books WHERE id=$1';
+  console.log('$1: ');
+  let sql = 'DELETE FROM books WHERE id=$1;';
+  console.log('+++++++++++______________++++++++++++DELETE+++++++++++______________++++++++++++');
+  console.log('req.body.id: ', req.body.id);
   let values = [parseInt(req.body.id)];
+  console.log('req.body.id: ', values);
+  console.log('+++++++++++______________++++++++++++DELETE+++++++++++______________++++++++++++');
   return client.query(sql, values)
     .then(res.redirect('/'));
 }

@@ -14,9 +14,10 @@
       <section class="book-info">
         <% console.log('book: ', book); %>
         <%- include('partials/detail', {book: book}) %>
-        <form action="/edit" method="post">
-        <button><a href="/edit">Select this book</a></button>
-        </form>
+        <!-- <form action="/book" method="get">
+          <button>Select this book</button>
+        </form> -->
+        <button><a href='/book/<%= book.id %>'>Select this book</a></button>
       </section>
 
     <% }) %>
@@ -25,4 +26,4 @@
     <%- include('partials/footer') %>
   </footer>
 </body>
-</html>
+</html> 
