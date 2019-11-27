@@ -14,7 +14,9 @@
       <section class="book-info">
         <% console.log('book: ', book); %>
         <%- include('partials/detail', {book: book}) %>
-        <button><a href="/add">Select this book</a></button>
+        <form action="/edit" method="post">
+        <button><a href="/edit">Select this book</a></button>
+        </form>
       </section>
 
     <% }) %>
