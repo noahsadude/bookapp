@@ -1,20 +1,8 @@
 <section>
   <img src="<%= book.image %>" alt="<%= book.title %> Book Photo" title="<%= book.title %>" />
   <h2 class="title"><%= book.title %> <h2>
-  
-  <% if(!book.authors){ %>
-    <% console.log('book.authors: ', book.authors); %>
-  <% } %>
-
-
-
-
   <% if(book.authors && book.authors.length > 0){ %>
-    <h2 class="author"><%= book.authors %></h2>
-    <% console.log('typeof book.authors: ', typeof book.authors); %>
-    <% console.log('book.authors: ', book.authors); %>
-
-    <!-- <h2 class="author"><%= book.authors.join(', ') %></h2> -->
+    <h2 class="author"><%= book.authors.join(', ') %></h2>
   <% } %>
   <p class="description"><%= book.description %></p>
   <% if(route !== '/'){ %>
