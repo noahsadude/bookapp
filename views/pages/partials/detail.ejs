@@ -3,6 +3,8 @@
   <h2 class="title"><%= book.title %> <h2>
   <h2 class="author"><%= book.authors.join(', ') %></h2>
   <p class="description"><%= book.description %></p>
-  <p class="isbn">ISBN: <%= book.isbn %></p>
-  <p class="shelf">Bookshelf: <%= book.shelf %></p>
+  <% if(route !== '/'){ %>
+    <p class="isbn">ISBN: <%= book.isbn[1] || book.isbn[0] %></p>
+    <p class="shelf">Bookshelf: <%= book.shelf %></p>
+  <% }; %>
 </section>

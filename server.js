@@ -36,7 +36,7 @@ app.get('/book/:book_id', getOneBook);
 async function getOneBook(req,res){
   let sql = 'SELECT * FROM books WHERE id=$1;'
   let result = await client.query(sql,[req.params.book_id]);
-  res.render('pages/book', {searchResults:result.rows});
+  res.render('pages/book', {searchResults:result.rows, route: '/book'});
 }
 
 async function buildIndex(req,res){
@@ -44,7 +44,7 @@ async function buildIndex(req,res){
   let result = await client.query(sql);
   console.log('result.rows[0]: ', result.rows[0]);
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-  res.render('pages/index', {searchResults:result});
+  res.render('pages/index', {searchResults:result, route: '/'});
 }
 
 function newSearch(req, res){ //renders the search.ejs file in pages dir 
@@ -68,7 +68,7 @@ async function searchAPI(req, res){
     console.log('bookArray[0]): ', bookArray[0]);
 
     //pass the array of book objects back to the response
-    res.render('pages/searchresults', {searchResults:bookArray});
+    res.render('pages/searchresults', {searchResults:bookArray, route: '/searchresults'});
   }
   catch{
     //if something goes wrong, say something.
@@ -82,7 +82,7 @@ function Book(info){
   this.title = info.title || 'No title available';
   this.authors = info.authors;
   this.description = info.description;
-  this.isbn = info.industryIdentifiers[1].identifier; // isbn 13
+  this.isbn = info.industryIdentifiers;
   this.shelf = info.categories;
 }
 
