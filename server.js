@@ -7,9 +7,9 @@ const express = require('express');
 const app = express();
 const superagent = require('superagent');
 require('dotenv').config();
+const methodOverride = require('method-override');
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
-
 const PORT = process.env.PORT || 3000;
 
 //tells express to use the built-in rules for ejs 
@@ -21,6 +21,15 @@ app.use(express.static('public'));
 //tells express to read all incoming body info (from the Books api)
 app.use(express.urlencoded({extended:true}));
 
+app.use(methodOverride( (request, response) => {
+  if(request.body && typeof request.body === 'object' && '_method' in request.body) {
+    console.log('method override: ', request.body); 
+    let method = request.body._method;
+    delete request.body._method;
+    return method;
+  }
+}));
+
 //connect to the SQL server; if unsuccessful, throw an error
 client.connect();
 client.on('error', err => console.error(err));
@@ -30,6 +39,8 @@ app.get('/', buildIndex);
 app.get('/search', newSearch);
 app.post('/searchresults', searchAPI);
 app.get('/book/:book_id', getOneBook);
+
+app.delete('/book/:id', deleteBook);
 
 //Helper Functions
 
@@ -42,7 +53,7 @@ async function getOneBook(req,res){
 async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
-  console.log('result.rows[0]: ', result.rows[0]);
+  console.log('result.rows from buildIndex: ', result.rows);
 
   res.render('pages/index', {searchResults:result, route: '/'});
 }
@@ -60,6 +71,7 @@ async function searchAPI(req, res){
     //wait for the result of the API call
     let result = await superagent.get(url);
     console.log('result.body.items: ', result.body.items);
+    console.log('********************~~~~~~~~~~~~~~~~~*********************~~~~~~~~~~~~~~~~~*********************~~~~~~~~~~~~~~~~~*********************');
     console.log('result.body.items[3].volumeInfo.categories: ', result.body.items[0].volumeInfo.categories);
 
     //instantiate book objects, and assign those objects to a new array
@@ -78,19 +90,31 @@ async function searchAPI(req, res){
   }
 }
 
+function deleteBook(req, res) {
+  console.log('$1: ');
+  let sql = 'DELETE FROM books WHERE id=$1;';
+  console.log('+++++++++++______________++++++++++++DELETE+++++++++++______________++++++++++++');
+  console.log('req.body.id: ', req.body.id);
+  let values = [parseInt(req.body.id)];
+  console.log('req.body.id: ', values);
+  console.log('+++++++++++______________++++++++++++DELETE+++++++++++______________++++++++++++');
+  return client.query(sql, values)
+    .then(res.redirect('/'));
+}
+
 //Book constructor
 function Book(info){
   this.image = info.imageLinks.thumbnail;
   this.title = info.title || 'No title available';
-  this.authors = info.authors;
-  this.description = info.description;
+  this.authors = info.authors || ['No authors listed'];
+  this.description = info.description || 'No description available';
   if(info.industryIdentifiers.length > 1){
     this.isbn = info.industryIdentifiers[1].identifier;
   }
   if(info.industryIdentifiers.length === 1){
     this.isbn = info.industryIdentifiers[0].identifier;
   }
-  this.shelf = info.categories;
+  this.shelf = info.categories || 'No bookshelf specified';
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!

@@ -1,10 +1,19 @@
 <section>
   <img src="<%= book.image %>" alt="<%= book.title %> Book Photo" title="<%= book.title %>" />
   <h2 class="title"><%= book.title %> <h2>
-  <h2 class="author"><%= book.authors.join(', ') %></h2>
+  <% if(book.authors && book.authors.length > 0){ %>
+    <h2 class="author"><%= book.authors.join(', ') %></h2>
+  <% } %>
   <p class="description"><%= book.description %></p>
   <% if(route !== '/'){ %>
     <p class="isbn">ISBN: <%= book.isbn %></p>
     <p class="shelf">Bookshelf: <%= book.shelf %></p>
+  <% }; %>
+  <% if(route === '/book'){ %>
+    <form action="/book/<%=book.id%>" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <input type="hidden" name="id" value="<%= book.id %>">
+      <button type="submit">Delete Book</button>
+    </form>
   <% }; %>
 </section>

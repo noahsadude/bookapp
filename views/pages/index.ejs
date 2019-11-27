@@ -14,7 +14,6 @@
     <% searchResults.rows.forEach( book => { %>
       <section class="book-info">
         <%- include('partials/detail', {book: book}) %>
-        <!-- Hide isbn and shelf  -->
         <button><a href='/book/<%= book.id %>'>View details</a></button>
       </section>
     <% }) %>
