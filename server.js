@@ -75,7 +75,6 @@ async function searchAPI(req, res){
     // if(result.body.items.length === 0 ){
       errorHandler(`No books with the ${req.body.search[1]} ${req.body.search[0]} was found.`, req, res);
     // }
-    // errorHandler('Something has gone awry.', req, res);
   }
 }
 
