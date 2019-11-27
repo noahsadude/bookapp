@@ -43,7 +43,7 @@ async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
   console.log('result.rows[0]: ', result.rows[0]);
-  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
   res.render('pages/index', {searchResults:result, route: '/'});
 }
 
@@ -61,7 +61,7 @@ async function searchAPI(req, res){
     let result = await superagent.get(url);
     console.log('result.body.items: ', result.body.items);
     console.log('result.body.items[3].volumeInfo.categories: ', result.body.items[0].volumeInfo.categories);
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
     //instantiate book objects, and assign those objects to a new array
     let bookArray = result.body.items.map(bookResult => new Book(bookResult.volumeInfo));
     //console log the first book to make sure schema is ok
@@ -82,7 +82,14 @@ function Book(info){
   this.title = info.title || 'No title available';
   this.authors = info.authors;
   this.description = info.description;
-  this.isbn = info.industryIdentifiers;
+  console.log('info.industryIdentifiers: ', info.industryIdentifiers);
+  console.log('info.industryIdentifiers.length: ', info.industryIdentifiers.length);
+  if(info.industryIdentifiers.length > 1){
+    this.isbn = info.industryIdentifiers[1].identifier;
+  }
+  if(info.industryIdentifiers.length === 1){
+    this.isbn = info.industryIdentifiers[0].identifier;
+  }
   this.shelf = info.categories;
 }
 
