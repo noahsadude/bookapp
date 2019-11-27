@@ -72,7 +72,10 @@ async function searchAPI(req, res){
   }
   catch{
     //if something goes wrong, say something.
-    errorHandler('Something has gone awry.', req, res);
+    // if(result.body.items.length === 0 ){
+      errorHandler(`No books with the ${req.body.search[1]} ${req.body.search[0]} was found.`, req, res);
+    // }
+    // errorHandler('Something has gone awry.', req, res);
   }
 }
 
@@ -82,8 +85,6 @@ function Book(info){
   this.title = info.title || 'No title available';
   this.authors = info.authors;
   this.description = info.description;
-  console.log('info.industryIdentifiers: ', info.industryIdentifiers);
-  console.log('info.industryIdentifiers.length: ', info.industryIdentifiers.length);
   if(info.industryIdentifiers.length > 1){
     this.isbn = info.industryIdentifiers[1].identifier;
   }
