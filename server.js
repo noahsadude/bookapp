@@ -60,6 +60,7 @@ async function searchAPI(req, res){
     //wait for the result of the API call
     let result = await superagent.get(url);
     console.log('result.body.items: ', result.body.items);
+    console.log('********************~~~~~~~~~~~~~~~~~*********************~~~~~~~~~~~~~~~~~*********************~~~~~~~~~~~~~~~~~*********************');
     console.log('result.body.items[3].volumeInfo.categories: ', result.body.items[0].volumeInfo.categories);
 
     //instantiate book objects, and assign those objects to a new array
@@ -82,15 +83,15 @@ async function searchAPI(req, res){
 function Book(info){
   this.image = info.imageLinks.thumbnail;
   this.title = info.title || 'No title available';
-  this.authors = info.authors;
-  this.description = info.description;
+  this.authors = info.authors || ['No authors listed'];
+  this.description = info.description || 'No description available';
   if(info.industryIdentifiers.length > 1){
     this.isbn = info.industryIdentifiers[1].identifier;
   }
   if(info.industryIdentifiers.length === 1){
     this.isbn = info.industryIdentifiers[0].identifier;
   }
-  this.shelf = info.categories;
+  this.shelf = info.categories || 'No bookshelf specified';
 }
 
 //DON'T FORGET TO HANDLE ERRORS!!!!
