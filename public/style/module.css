@@ -1,8 +1,8 @@
 header > h1 {
   font-family: "Josefin Sans", sans-serif;
-  width: calc(100% - 160px);
+  /* width: calc(100% - 160px); */
 	text-align: center;
-	font-size: 2.2em;
+	font-size: 3.8em;
 	color: white;
 }
 header > .top {
@@ -53,8 +53,8 @@ h4, button {
   display: block;
   width: 100%;
   padding: 1em 0;
-  background-color: grey;
-  color: #E5E5E3;
+  background-color: #E5E5E3;
+  /* color: #E5E5E3; */
 }
 
 label {
@@ -94,14 +94,15 @@ ul {
   width: 80%;
   margin: 3% auto 1.5% auto;
   box-sizing: border-box;
-  background-color: #FFFFDA;
-  padding: 10% 9%;
-  box-shadow: 3px 5px #FFD02E;
+  background-color: #FBDB53;
+  padding: 10% 9% 5% 9%;
+  box-shadow: 7px 10px #FFD02E;
   border-radius: 10px; 
 }
 
 img {
   margin-bottom: 4%;
+  width: 30%;
 }
 
 .title {
@@ -124,16 +125,27 @@ img {
   font-size: 1em;
   color: #262626;
   line-height: 1.5em;
+  margin-bottom: 5%;
+  height: 6em;
+  overflow: hidden;
+  padding: 5px 15px;
 }
 
-@media screen and (min-width: 800px) {
-	header h1 {
-		font-size: 40px;
-	}
+.description:hover {
+  overflow-y: auto;
 }
-@media screen and (min-width: 500px) {
-	nav.menu {
-		width: 100%;
+
+@media screen and (min-width: 1000px) {
+  nav.menu {
+    width: 100%;
 		left: -100%; 
-	}
+  }
+  img {
+    width: 30%;
+  }
+
+  .book-info {
+    width: 65%;
+  }
+  
 }

@@ -2,23 +2,20 @@
 <html lang="en">
   <head>
     <title>results</title>
-    <% include partials/head %>
+    <%- include('partials/head') %>
   </head>
 <body>
   <header>
-      <% include ../partials/header %>
+      <%- include('./partials/header') %>
   </header>
   <main>
     <% searchResults.forEach(book=> {%>
-    <section>
-      <img src="<%= book.imgURL %>"/>
-     <h2><%= book.title %> <h2>
-     <h3><%= book.authors %></h3>
-     <p><%= book.description %></p>
+    <section class="book-info">
+        <%- include('partials/detail', {book: book}) %>
     </section>
     <%);}%>
   </main>
   <footer>
-      <% include partials/footer %>
+    <%- include('partials/footer') %>
   </footer></body>
 </html>

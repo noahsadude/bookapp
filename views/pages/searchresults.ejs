@@ -2,27 +2,28 @@
 <html lang="en">
 <head>
   <title>Document</title>
-  <% include partials/head %>
+  <%- include('partials/head') %>
 </head>
 <body>
   <header>
-    <% include partials/header %>
+    <%- include('partials/header') %>  
   </header>
   <main>
     <h4>Search Results</h4>
     <% searchResults.forEach( book => { %>
       <section class="book-info">
-        <img src="<%= book.image %>" alt="<%= book.title %> Book Photo" title="<%= book.title %>" />
-        <h3 class="title"><%= book.title %></h3>
-        <h2 class="author"><%= book.authors %></h2>
-        <p class="description"><%= book.description %></p>
-        <button>Select this book</button>
+        <% console.log('book: ', book); %>
+        <%- include('partials/detail', {book: book}) %>
+        <!-- <form action="/book" method="get">
+          <button>Select this book</button>
+        </form> -->
+        <button><a href='/book/<%= book.id %>'>Select this book</a></button>
       </section>
 
     <% }) %>
   </main>
   <footer>
-      <% include partials/footer %>
+    <%- include('partials/footer') %>
   </footer>
 </body>
-</html>
+</html> 
