@@ -12,7 +12,12 @@
     <% searchResults.forEach( book => { %>
       <section class="book-info">
         <%- include('partials/detail', {book: book}) %>
+        <button class="edit-button">Edit Book</button>
+        <section class="hide-me">
+          <%- include('partials/form', {formAction: 'update', book: book}) %>
+        </section>
         <button><a href="/">Show All Books</a></button>
+
       </section>
       <% }) %>
   </main>
