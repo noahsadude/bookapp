@@ -39,10 +39,32 @@ app.get('/', buildIndex);
 app.get('/search', newSearch);
 app.post('/searchresults', searchAPI);
 app.get('/book/:book_id', getOneBook);
+app.post('/add', addNewBook);
+
+app.put('/book/:book_id',updateBook);
 
 app.delete('/book/:id', deleteBook);
 
+function updateBook(req, res) {
+  let sql = 'UPDATE books SET image=$1, title=$2, authors=$3, description=$4, shelf=$5, isbn=$6 WHERE id=$7;';
+  let { image, title, authors, description, shelf, isbn } = req.body;
+  let values = [image, title, [authors], description, [shelf], isbn, req.params.book_id];
+  client.query(sql, values) 
+  .then(res.redirect(`/book/${req.params.book_id}`));
+}
+
 //Helper Functions
+async function addNewBook(req,res){
+  let r = req.body;
+  let sql = 'INSERT INTO books(image,title,authors,description,shelf,isbn) VALUES($1,$2, $3, $4, $5, $6) RETURNING id;';
+    let values = [r.image, r.title, [r.authors], r.description, [r.shelf], r.isbn];
+  client.query(sql, values)
+  .then( result => {
+      if(result.rowCount > 0){
+          res.redirect('/');
+      }
+  })
+}
 
 async function getOneBook(req,res){
   let sql = 'SELECT * FROM books WHERE id=$1;'
