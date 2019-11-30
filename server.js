@@ -80,8 +80,8 @@ async function getOneBook(req,res){
 async function getShelfCategories(req,res){
   let sql = 'SELECT DISTINCT shelf FROM books;';
   let result = await client.query(sql);
-  // let resultRows = Object.values(result.rows);
   let resultRows = result.rows;
+  shelfCategories.length = 0;
   
   resultRows.forEach( (row, idx) => {
     row.shelf.forEach( shelf => {
@@ -96,10 +96,6 @@ async function getShelfCategories(req,res){
       }
     })
   });
-
-  console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************');
-  console.log('shelfCategories from getShelfCategories: ', shelfCategories);   
-  console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************');
 }
 
 async function buildIndex(req,res){
