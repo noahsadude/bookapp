@@ -84,25 +84,22 @@ async function getShelfCategories(req,res){
   let resultRows = result.rows;
   
   resultRows.forEach( (row, idx) => {
-    if(idx > 0){
-      row.shelf.forEach( shelf => {
-        if(!(shelf.includes(','))){
-          shelfCategories.push(shelf);
-        }
-        if(shelf.includes(',')){
-          shelf = shelf.split(', ' || ',');
-          shelf.forEach( category => {
-            shelfCategories.push(category);
-          })
-        }
-      })
-    }
+    row.shelf.forEach( shelf => {
+      if(!(shelf.includes(','))){
+        shelfCategories.push(shelf);
+      }
+      if(shelf.includes(',')){
+        shelf = shelf.split(', ' || ',');
+        shelf.forEach( category => {
+          shelfCategories.push(category);
+        })
+      }
+    })
   });
 
   console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************');
   console.log('shelfCategories from getShelfCategories: ', shelfCategories);   
   console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************');
-  // res.render('pages/index', {searchResults:result, route: '/'});
 }
 
 async function buildIndex(req,res){
