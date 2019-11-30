@@ -59,10 +59,11 @@ async function addNewBook(req,res){
   let r = req.body;
   let sql = 'INSERT INTO books(image,title,authors,description,shelf,isbn) VALUES($1,$2, $3, $4, $5, $6) RETURNING id;';
     let values = [r.image, r.title, [r.authors], r.description, [r.shelf], r.isbn];
-  client.query(sql, values)
+  let result = await client.query(sql, values)
   .then( result => {
       if(result.rowCount > 0){
-          res.redirect('/');
+        console.log('result.rows[0].id: ', result.rows[0].id);
+          res.redirect((`/book/${result.rows[0].id}`));
       }
   })
 }
