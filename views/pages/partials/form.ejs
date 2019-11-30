@@ -13,5 +13,5 @@
   <textarea name="description" placeholder="<%=book.description%>" cols="30" rows="10"></textarea>
   <label>Shelf</label>
   <input type="text" value="<%=book.shelf%>" name="shelf" placeholder="book.shelf">   
-  <button>Submit</button> 
+  <button><%- 'update' ===formAction ? "Update Book Details" : "Add New Book" %></button> 
 </form>
