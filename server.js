@@ -11,6 +11,7 @@ const methodOverride = require('method-override');
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
 const PORT = process.env.PORT || 3000;
+let shelfCategories = [];
 
 //tells express to use the built-in rules for ejs 
 app.set('view engine', 'ejs');  
@@ -58,7 +59,7 @@ function updateBook(req, res) {
 async function addNewBook(req,res){
   let r = req.body;
   let sql = 'INSERT INTO books(image,title,authors,description,shelf,isbn) VALUES($1,$2, $3, $4, $5, $6) RETURNING id;';
-    let values = [r.image, r.title, [r.authors], r.description, [r.shelf], r.isbn];
+  let values = [r.image, r.title, [r.authors], r.description, [r.shelf], r.isbn];
   let result = await client.query(sql, values)
   .then( result => {
       if(result.rowCount > 0){
@@ -74,11 +75,41 @@ async function getOneBook(req,res){
   res.render('pages/book', {searchResults:result.rows, route: '/book'});
 }
 
+
+async function getShelfCategories(req,res){
+  let sql = 'SELECT DISTINCT shelf FROM books;';
+  let result = await client.query(sql);
+  // let resultRows = Object.values(result.rows);
+  let resultRows = result.rows;
+  
+  resultRows.forEach( (row, idx) => {
+    if(idx > 0){
+      row.shelf.forEach( shelf => {
+        if(!(shelf.includes(','))){
+          shelfCategories.push(shelf);
+        }
+        if(shelf.includes(',')){
+          shelf = shelf.split(', ' || ',');
+          shelf.forEach( category => {
+            shelfCategories.push(category);
+          })
+        }
+      })
+    }
+  });
+
+  console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************~~~~~~~~~~~~~~~~~*********************');
+        console.log('shelfCategories from getShelfCategories: ', shelfCategories);
+
+  console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************~~~~~~~~~~~~~~~~~*********************');
+  // res.render('pages/index', {searchResults:result, route: '/'});
+}
+
 async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
   console.log('result.rows from buildIndex: ', result.rows);
-
+  getShelfCategories();
   res.render('pages/index', {searchResults:result, route: '/'});
 }
 
