@@ -39,6 +39,7 @@ app.get('/', buildIndex);
 app.get('/search', newSearch);
 app.post('/searchresults', searchAPI);
 app.get('/book/:book_id', getOneBook);
+app.get('/add', (req, res) => res.render('pages/add'));
 app.post('/add', addNewBook);
 
 app.put('/book/:book_id',updateBook);
