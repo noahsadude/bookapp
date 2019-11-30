@@ -130,7 +130,7 @@ async function searchAPI(req, res){
     console.log('bookArray[0]): ', bookArray[0]);
 
     //pass the array of book objects back to the response
-    res.render('pages/searchresults', {searchResults:bookArray, route: '/searchresults'});
+    res.render('pages/searchresults', {searchResults:bookArray, route: '/searchresults', shelves: shelfCategories});
   }
   catch{
     //if something goes wrong, say something.
