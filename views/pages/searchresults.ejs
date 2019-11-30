@@ -14,13 +14,13 @@
       <section class="book-info">
         <% console.log('book: ', book); %>
         <%- include('partials/detail', {book: book}) %>
-        <!-- <form action="/book" method="get">
-          <button>Select this book</button>
-        </form> -->
-        <button><a href='/book/<%= book.id %>'>Select this book</a></button>
+        <button class="edit-button">Select this book</button>
+        <section class="hide-me">
+          <%- include('partials/form', {formAction: 'add', book: book}) %>
+        </section>
       </section>
-
     <% }) %>
+
   </main>
   <footer>
     <%- include('partials/footer') %>
