@@ -16,7 +16,7 @@
         <%- include('partials/detail', {book: book}) %>
         <button class="edit-button">Select this book</button>
         <section class="hide-me">
-          <%- include('partials/form', {formAction: 'add', book: book}) %>
+          <%- include('partials/form', {formAction: 'add', book: book, shelves: shelves}) %>
         </section>
       </section>
     <% }) %>

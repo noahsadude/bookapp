@@ -12,6 +12,8 @@ const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
 const PORT = process.env.PORT || 3000;
 
+let shelfCategories = [];
+
 //tells express to use the built-in rules for ejs 
 app.set('view engine', 'ejs');  
 
@@ -39,6 +41,7 @@ app.get('/', buildIndex);
 app.get('/search', newSearch);
 app.post('/searchresults', searchAPI);
 app.get('/book/:book_id', getOneBook);
+app.get('/add', (req, res) => res.render('pages/add', {shelves: shelfCategories}));
 app.post('/add', addNewBook);
 
 app.put('/book/:book_id',updateBook);
@@ -57,11 +60,12 @@ function updateBook(req, res) {
 async function addNewBook(req,res){
   let r = req.body;
   let sql = 'INSERT INTO books(image,title,authors,description,shelf,isbn) VALUES($1,$2, $3, $4, $5, $6) RETURNING id;';
-    let values = [r.image, r.title, [r.authors], r.description, [r.shelf], r.isbn];
-  client.query(sql, values)
+  let values = [r.image, r.title, [r.authors], r.description, [r.shelf], r.isbn];
+  let result = await client.query(sql, values)
   .then( result => {
       if(result.rowCount > 0){
-          res.redirect('/');
+        console.log('result.rows[0].id: ', result.rows[0].id);
+          res.redirect((`/book/${result.rows[0].id}`));
       }
   })
 }
@@ -69,13 +73,37 @@ async function addNewBook(req,res){
 async function getOneBook(req,res){
   let sql = 'SELECT * FROM books WHERE id=$1;'
   let result = await client.query(sql,[req.params.book_id]);
-  res.render('pages/book', {searchResults:result.rows, route: '/book'});
+  res.render('pages/book', {searchResults:result.rows, route: '/book', shelves: shelfCategories});
+}
+
+
+async function getShelfCategories(req,res){
+  let sql = 'SELECT DISTINCT shelf FROM books;';
+  let result = await client.query(sql);
+  let resultRows = result.rows;
+  shelfCategories.length = 0;
+  
+  resultRows.forEach( (row, idx) => {
+    row.shelf.forEach( shelf => {
+      if(!(shelf.includes(','))){
+        shelfCategories.push(shelf);
+      }
+      if(shelf.includes(',')){
+        shelf = shelf.split(', ' || ',');
+        shelf.forEach( category => {
+          shelfCategories.push(category);
+        })
+      }
+    })
+  });
 }
 
 async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
   console.log('result.rows from buildIndex: ', result.rows);
+
+  getShelfCategories();
 
   res.render('pages/index', {searchResults:result, route: '/'});
 }
@@ -102,7 +130,7 @@ async function searchAPI(req, res){
     console.log('bookArray[0]): ', bookArray[0]);
 
     //pass the array of book objects back to the response
-    res.render('pages/searchresults', {searchResults:bookArray, route: '/searchresults'});
+    res.render('pages/searchresults', {searchResults:bookArray, route: '/searchresults', shelves: shelfCategories});
   }
   catch{
     //if something goes wrong, say something.

@@ -1,17 +1,31 @@
-<form action="<%- 'update' === formAction ? '/book/'+book.id : '/add' %>" method="post">
-  <h2><%- 'update' ===formAction ? "Update Book" : "Add book to shelf" %></h2>
-    <input type="hidden" name="_method" value="<%- 'update' === formAction ? 'put' : 'post' %>">
+<form class="add-edit" action="<%- 'update' === formAction ? '/book/'+book.id : '/add' %>" method="post">
+  <h2><%- 'update' === formAction ? "Update Book" : "Add book to shelf" %></h2>
+  
+  <input type="hidden" name="_method" value="<%- 'update' === formAction ? 'put' : 'post' %>">
   <input type="hidden" name="id" value="<%=book.id%>">
+
   <label>Title</label>
   <input type="text" value="<%=book.title%>" name="title" placeholder="<%=book.title%>">
+
   <label>Author</label>
-  <input type="text" value="<%= book.authors.join(', ') %>" name="authors" placeholder="<%= book.authors.join(', ') %>">
+  <input type="text" value="<%= book.authors %>" name="authors" placeholder="<%= book.authors %>">
+
   <label>ISBN</label>
   <input type="text" value="<%=book.isbn%>" name="isbn" placeholder="<%=book.isbn%>">
+
   <label>URL</label>
   <input type="text" value="<%=book.image%>" name="image" placeholder="<%=book.image%>">
+
+  <label>Description</label>
   <textarea name="description" placeholder="<%=book.description%>" cols="30" rows="10"></textarea>
+
   <label>Shelf</label>
-  <input type="text" value="<%=book.shelf%>" name="shelf" placeholder="book.shelf">   
-  <button>Submit</button> 
+  <select id="categories">
+    <% shelves.forEach( category => { %>
+      <option value="<%= category %>"><%= category %></option>
+    <% }); %>
+  </select>
+  <input type="text" value="<%=book.shelf%>" name="shelf" placeholder="book.shelf">
+
+  <button><%- 'update' === formAction ? "Update Book Details" : "Add New Book" %></button> 
 </form>
