@@ -11,6 +11,7 @@ const methodOverride = require('method-override');
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
 const PORT = process.env.PORT || 3000;
+
 let shelfCategories = [];
 
 //tells express to use the built-in rules for ejs 
@@ -72,7 +73,7 @@ async function addNewBook(req,res){
 async function getOneBook(req,res){
   let sql = 'SELECT * FROM books WHERE id=$1;'
   let result = await client.query(sql,[req.params.book_id]);
-  res.render('pages/book', {searchResults:result.rows, route: '/book'});
+  res.render('pages/book', {searchResults:result.rows, route: '/book', shelves: shelfCategories});
 }
 
 
@@ -98,10 +99,9 @@ async function getShelfCategories(req,res){
     }
   });
 
-  console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************~~~~~~~~~~~~~~~~~*********************');
-        console.log('shelfCategories from getShelfCategories: ', shelfCategories);
-
-  console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************~~~~~~~~~~~~~~~~~*********************');
+  console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************');
+  console.log('shelfCategories from getShelfCategories: ', shelfCategories);   
+  console.log('********************~~~~~~~~~~~~~~~~~*****SHELF CATEGORIES*******~~~~~~~~~~~~~~~~~*********************');
   // res.render('pages/index', {searchResults:result, route: '/'});
 }
 
@@ -109,7 +109,9 @@ async function buildIndex(req,res){
   let sql = 'SELECT * FROM books;';
   let result = await client.query(sql);
   console.log('result.rows from buildIndex: ', result.rows);
+
   getShelfCategories();
+
   res.render('pages/index', {searchResults:result, route: '/'});
 }
 

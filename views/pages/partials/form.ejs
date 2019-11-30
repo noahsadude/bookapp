@@ -1,5 +1,5 @@
 <form action="<%- 'update' === formAction ? '/book/'+book.id : '/add' %>" method="post">
-  <h2><%- 'update' ===formAction ? "Update Book" : "Add book to shelf" %></h2>
+  <h2><%- 'update' === formAction ? "Update Book" : "Add book to shelf" %></h2>
     <input type="hidden" name="_method" value="<%- 'update' === formAction ? 'put' : 'post' %>">
   <input type="hidden" name="id" value="<%=book.id%>">
   <label>Title</label>
@@ -13,7 +13,9 @@
   <textarea name="description" placeholder="<%=book.description%>" cols="30" rows="10"></textarea>
   <label>Shelf</label>
   <select>
-    
+    <% shelves.forEach( category => { %>
+        <option value="<%= category %>"><%= category %></option>
+    <% }); %>
   </select>
   <input type="text" value="<%=book.shelf%>" name="shelf" placeholder="book.shelf">   
   <button><%- 'update' ===formAction ? "Update Book Details" : "Add New Book" %></button> 
