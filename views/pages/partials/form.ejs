@@ -5,7 +5,7 @@
   <input type="hidden" name="id" value="<%=book.id%>">
 
   <label>Title</label>
-  <input type="text" value="<%=book.title%>" name="title" placeholder="<%=book.title%>" required>
+  <input type="text" value="<%=book.title%>" name="title" placeholder="<%=book.title%>" required autofocus>
 
   <label>Author</label>
   <input type="text" value="<%= book.authors %>" name="authors" placeholder="<%= book.authors %>">
@@ -14,7 +14,7 @@
   <input type="text" value="<%=book.isbn%>" name="isbn" placeholder="<%=book.isbn%>" required>
 
   <label>URL</label>
-  <input type="url" value="<%=book.image%>" name="image" placeholder="<%=book.image%>" required pattern="https?://.+">
+  <input class="url" type="url" value="<%=book.image%>" name="image" placeholder="<%=book.image%>" required pattern="https?://.+">
 
   <label>Description</label>
   <textarea name="description" cols="30" rows="10" placeholder="Enter a description" required><%=book.description%></textarea>
