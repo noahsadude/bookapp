@@ -20,11 +20,13 @@
   <textarea name="description" cols="30" rows="10" placeholder="Enter a description" required><%=book.description%></textarea>
 
   <label>Shelf</label>
-  <select id="categories">
+
+  <select class="categories">
     <% shelves.forEach( category => { %>
-      <option value="<%= category %>"><%= category %></option>
+      <option class="<%= category %> value="<%= category %></option><%= category %></option>
     <% }); %>
   </select>
+
   <input type="text" value="<%=book.shelf%>" name="shelf" placeholder="book.shelf" required>
 
   <button><%- 'update' === formAction ? "Update Book Details" : "Add New Book" %></button> 

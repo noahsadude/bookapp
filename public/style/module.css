@@ -43,6 +43,10 @@ form {
   margin-top: 1em;
 }
 
+input:invalid {
+  border: 3px solid red;
+}
+
 fieldset {
   display: flex;
   flex-direction: column;
