@@ -23,11 +23,10 @@
 
   <select class="categories">
     <% shelves.forEach( category => { %>
-      <option name="name attribute" class="<%= category %>" value="<%= category %>"><%= category %></option>
+      <option class="<%= category %>" value="<%= category %>"><%= category %></option>
     <% }); %>
   </select>
 
-  <input type="text" value="<%=book.shelf%>" name="shelf" placeholder="book.shelf" required>
 
   <button><%- 'update' === formAction ? "Update Book Details" : "Add New Book" %></button> 
 </form>

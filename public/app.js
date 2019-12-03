@@ -13,8 +13,7 @@ $('select.categories').change(function() {
   });
 
 
-  $(this).children('option:selected').attr('name', "shelf");
+  $(this).attr('name', "shelf");
   console.log('Option: ' + selectedCategory + ' has been selected');
-  // $('.' + selectedCategory').selected = "selected";
 
 })
