@@ -11,7 +11,7 @@ CREATE TABLE books (
 );
 
 INSERT INTO books (image, title, authors, description, shelf, isbn)
-VALUES ('http://books.google.com/books/content?id=dG1KAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api','The Google story','{"David A. Vise","Mark Malseed"}','Here is the story behind one of the most remarkable Internet
+VALUES ('https://books.google.com/books?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api','The Google story','{"David A. Vise","Mark Malseed"}','Here is the story behind one of the most remarkable Internet
   successes of our time. Based on scrupulous research and extraordinary access
   to Google, ...', '{"Business & Economics / Entrepreneurship"}', '9780553804577'),
   ('http://books.google.com/books/content?id=wDO5AAAAIAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api','The Annals of Science','{"Hamilton Lanphere Smith"}','Vol. 2 includes the transactions of the Cleveland Academy of Natural Sciences.', '{"Business & Economics / Entrepreneurship"}', '5770553804978'),

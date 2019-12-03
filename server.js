@@ -44,7 +44,7 @@ app.get('/book/:book_id', getOneBook);
 app.get('/add', (req, res) => res.render('pages/add', {shelves: shelfCategories}));
 app.post('/add', addNewBook);
 
-app.put('/book/:book_id',updateBook);
+app.put('/book/:book_id', updateBook);
 
 app.delete('/book/:id', deleteBook);
 
