@@ -7,9 +7,12 @@ $('.edit-button').on('click', function() {
 
 $('select.categories').change(function() {
   let selectedCategory = $(this).children('option:selected').val();
-  let allChildren = $(this).children;
-  console.log('children: ', allChildren);
-  // $(this).children.removeAttr('name');
+
+  $('.categories option').each(function(){
+    $(this).removeAttr('name');
+  });
+
+
   $(this).children('option:selected').attr('name', "shelf");
   console.log('Option: ' + selectedCategory + ' has been selected');
   // $('.' + selectedCategory').selected = "selected";
