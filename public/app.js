@@ -12,8 +12,7 @@ $('select.categories').change(function() {
     $(this).removeAttr('name');
   });
 
-
-  $(this).attr('name', "shelf");
+  // $(this).attr('name', "shelf");
   console.log('Option: ' + selectedCategory + ' has been selected');
 
 })
